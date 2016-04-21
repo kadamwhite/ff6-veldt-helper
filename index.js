@@ -3,6 +3,7 @@ require('./styles.styl');
 var d3 = require('d3');
 var flatten = require('lodash.flatten');
 var uniq = require('lodash.uniq');
+var debounce = require('lodash.debounce');
 
 var data = require('./data');
 var bestiary = data.bestiary;
@@ -13,10 +14,6 @@ var getPack = data.util.getPack;
 
 var body = d3.select('body');
 
-var searchBox = body.append('input').attr({
-  type: 'text'
-});
-
 function keyById(d) { return d.id; }
 
 function bindData(data) {
@@ -24,7 +21,7 @@ function bindData(data) {
     return selection.data(data, function(d) {
       return d.id;
     });
-  }
+  };
 }
 
 var packList = body.append('ul');
@@ -54,7 +51,10 @@ function setPackData(packs) {
   packs.exit().remove();
 
   packs.enter().append('li').attr({
-    class: 'pack'
+    class: 'pack',
+    id: function(d) {
+      return 'pack-' + d.id;
+    }
   }).each(function(d, i) {
     var li = d3.select(this);
     li.append('p').style('font-weight', 'bold').text('Pack ' + d.id);
@@ -62,7 +62,7 @@ function setPackData(packs) {
   });
 
   packs.each(function(d, i) {
-    var formations = d3.select(this).select('ul')
+    var formations = d3.select(this).select('ul');
 
     d.formations.forEach(function(formation) {
       if (!formation.length) {
@@ -84,7 +84,7 @@ function reset() {
   setPackData(data.packs);
 }
 
-searchBox.on('keyup', function(evt) {
+function updateList() {
   var re = new RegExp(this.value.split('').join('.*'), 'i');
   var matchingMonsters = bestiary.filter(function(monster) {
     return re.test(monster.name);
@@ -96,6 +96,15 @@ searchBox.on('keyup', function(evt) {
     .sort(d3.ascending)
     .map(getPack);
   setPackData(matchingPacks);
-});
+}
+var searchBox = d3.select('#monster-name-filter');
+searchBox.on('keyup', debounce(updateList, 50));
 
+var resetButton = d3.select('#reset-button');
+resetButton.on('click', function() {
+  searchBox.property('value', '');
+  reset();
+})
+
+// Initialize
 reset();

@@ -1,7 +1,12 @@
 {
   "name": "veldt-list",
+  "private": true,
   "version": "1.0.0",
   "description": "A searchable Veldt pack list",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kadamwhite/ff6-veldt-helper.git"
+  },
   "main": "index.js",
   "scripts": {
     "build:watch": "webpack -d",
@@ -23,8 +28,6 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "d3": "^3.5.16",
-    "lodash.flatten": "^4.2.0",
-    "lodash.uniq": "^4.2.1"
+    "d3": "^3.5.16"
   }
 }
