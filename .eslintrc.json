@@ -6,8 +6,15 @@
       "jsx": true
     }
   },
+  "env": {
+    "node": true,
+    "browser": true
+  },
   "rules": {
-    "indent": 2,
-    "semi": 2
+    "strict": ["error", "global"],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
+    "no-undef": ["error"],
+    "one-var": ["error", { "uninitialized": "always", "initialized": "never" }],
+    "semi": "error"
   }
 }

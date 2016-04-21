@@ -6,8 +6,8 @@
   "scripts": {
     "build:watch": "webpack -d",
     "build:prod": "webpack",
-    "lint": "eslint --ext .js,.jsx",
-    "lint:watch": "eslint --ext .js,.jsx",
+    "lint": "eslint --ext .js,.jsx .",
+    "lint:watch": "esw --ext .js,.jsx . -w",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --devtool=cheap-module-source-map --inline"
   },
@@ -23,6 +23,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "d3": "^3.5.16"
+    "d3": "^3.5.16",
+    "lodash.flatten": "^4.2.0",
+    "lodash.uniq": "^4.2.1"
   }
 }
